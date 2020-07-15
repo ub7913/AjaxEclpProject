@@ -11,15 +11,55 @@
 			url: "GetEmpListServlet", //java Resource에 있는 employee패키지의 클래스 GetEmpServlet안에 적힌 url을 써야 함('/' 빼고)
 			success: function(result, status, xhr) {
 				console.log(result);
+			/* 	var datas = result;
+				var $tag = "<table border=1><caption>:::: Employee Lists ::::</caption>";
+				$tag += "<tr><th>Id</th><th>Name</th><th>Email</th><th>Salary</th></tr>";
+				for (var i = 0; i < datas.length; i++) {
+					$tag += "<tr><td>" + datas[i].id 
+					     + "</td><td>" + datas[i].first_name 
+					     + "</td><td>" + datas[i].email 
+					     + "</td><td>" + datas[i].salary
+					     + "</td><td><button onclick='delFunc(this)'>삭제</button>"
+					     + "</td></tr>";
+				}
+				$tag += "</table>";
+				$("#show").html($tag);
+			},
+			error: function (xhr, status, error) {
+				console.log(error);
+			} */
 				var data = JSON.parse(result);//제이슨 데이터이 자바스크립 오브젝트 타입으로 변환 시켜주는게 JSON.parse
 				console.log(data);
-				document.write("<h2>ID: " + data[2].id + "</h2>");
-				document.write("<h2>FName: " + data[3].first_name + "</h2>");
-				document.write("<h2>Age: " + data[1].age + "</h2>");
+				//document.write("<h2>ID: " + data[0].id + "</h2>");
+				//document.write("<h2>FName: " + data[0].first_name + "</h2>");
+				//document.write("<h2>Age: " + data[1].age + "</h2>");
+				var $table = $('<table />').attr({'border':'1', 'id':'tbl'});
+				var $tr = $('<tr />');
+				$tr.append($('<th />').text('HireDate'),
+	                       $('<th />').text('LName'),
+	                       $('<th />').text('Email'),
+	                       $('<th />').text('JobId')
+	            );
+				$table.append($tr);
+				data.forEach(function(o) {
+					 console.log(o);
+					 var $tr = $('<tr />');
+		             var $btn = $('<button />');
+		             for (i in o) {
+		                 $tr.append($('<td />').text(o[i]));
+								                 
+		             }
+		             $table.append($tr);
+				});
+				$('#show').append($table);
 			}
 		});
 		
 	});
+	
+	/* function delFunc(obj) {
+		$(obj).parent().parent().remove();
+	} */
 </script>
 </head>
 <body>

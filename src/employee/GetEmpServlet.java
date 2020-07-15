@@ -38,17 +38,17 @@ public class GetEmpServlet extends HttpServlet {
 		//{"id":"user1", "first_name":"Hong", "age":30}
 		PrintWriter out = response.getWriter();
 		//hr.employee(employee_id, first_name, email, salary)
-		empDAO dao = new empDAO();
+		EmpDAO dao = new EmpDAO();
 		List<Employee> list = dao.getEmpList();
 		int cnt = 0;
 		int rowCnt = list.size();
 		out.write("[");
 		for (Employee emp : list) {
 //			{"id":"data1","first_name":"data2","email":"data3","salary":"data4"}
-			out.write("{\"id\":\""+emp.getEmployeeId()
-					 +"\",\"first_name\":\""+emp.getFirstName()
-					 +"\",\"email\":\""+emp.getEmail()+"\",\"salary\":\""
-					 +emp.getSalary()+"\"}");
+			out.write("{\"last_name\":\""+emp.getLastName()
+					 +"\",\"email\":\""+emp.getEmail()
+					 +"\",\"hire_date\":\""+emp.getHireDate()+"\",\"job_id\":\""
+					 +emp.getJobId()+"\"}");
 			if(++cnt != rowCnt)
 				out.write(",");
 		}
