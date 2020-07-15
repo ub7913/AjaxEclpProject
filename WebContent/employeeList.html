@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>employeeList.html</title>
+<script src = "jquery-3.5.1.min.js"></script>
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 웹서버에서 불러올때-->
+<script>
+	$(document).ready(function() {
+		$.ajax({
+			url: "GetEmpListServlet", //java Resource에 있는 employee패키지의 클래스 GetEmpServlet안에 적힌 url을 써야 함('/' 빼고)
+			success: function(result, status, xhr) {
+				console.log(result);
+				var data = JSON.parse(result);//제이슨 데이터이 자바스크립 오브젝트 타입으로 변환 시켜주는게 JSON.parse
+				console.log(data);
+				document.write("<h2>ID: " + data[2].id + "</h2>");
+				document.write("<h2>FName: " + data[3].first_name + "</h2>");
+				document.write("<h2>Age: " + data[1].age + "</h2>");
+			}
+		});
+		
+	});
+</script>
+</head>
+<body>
+	<p id="show"></p>	
+</body>
+</html>
