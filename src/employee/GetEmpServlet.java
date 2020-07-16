@@ -45,7 +45,7 @@ public class GetEmpServlet extends HttpServlet {
 		out.write("[");
 		for (Employee emp : list) {
 //			{"id":"data1","first_name":"data2","email":"data3","salary":"data4"}
-			out.write("{\"last_name\":\""+emp.getLastName()
+			out.write("{\"employee_id\":\""+emp.getEmployeeId()+"\",\"last_name\":\""+emp.getLastName()
 					 +"\",\"email\":\""+emp.getEmail()
 					 +"\",\"hire_date\":\""+emp.getHireDate()+"\",\"job_id\":\""
 					 +emp.getJobId()+"\"}");

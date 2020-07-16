@@ -69,17 +69,29 @@ public class EmpDAO {
 		}
 	}
 	
+	public void deleteEmp(String empId) {
+		conn = getConnect();
+		String sql = " delete from employees where employee_id = " + empId;
+		try {
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+			int r = pstmt.executeUpdate();
+			System.out.println(r + "건 삭제됨");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public List<Employee> getEmpList() {
 		conn = getConnect();
 		List<Employee> list = new ArrayList<>();
 		try {
-			String sql = "select last_name, email, hire_date, job_id  from employees";
+			String sql = "select employee_id, last_name, email, hire_date, job_id  from employees";
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
 			while(rs.next()) {
 				Employee emp = new Employee(
-						rs.getString("last_name"),rs.getString("email"),
-						rs.getString("hire_date"), rs.getString("job_id")
+						rs.getInt("employee_id"),rs.getString("email"),rs.getString("hire_date"),
+						rs.getString("last_name"), rs.getString("job_id")
 				);
 				list.add(emp);
 			}

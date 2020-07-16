@@ -11,33 +11,35 @@
 			url: "GetEmpListServlet", //java Resource에 있는 employee패키지의 클래스 GetEmpServlet안에 적힌 url을 써야 함('/' 빼고)
 			success: function(result, status, xhr) {
 				console.log(result);
-			/* 	var datas = result;
+			 	/* var datas = JSON.parse(result);
 				var $tag = "<table border=1><caption>:::: Employee Lists ::::</caption>";
-				$tag += "<tr><th>Id</th><th>Name</th><th>Email</th><th>Salary</th></tr>";
+				$tag += "<tr><th>EId</th><th>LName</th><th>Email</th><th>HireDate</th><th>JobId</th></tr>";
 				for (var i = 0; i < datas.length; i++) {
-					$tag += "<tr><td>" + datas[i].id 
-					     + "</td><td>" + datas[i].first_name 
+					$tag += "<tr><td>" + datas[i].employee_id
+						 + "</td><td>" + datas[i].last_name 
 					     + "</td><td>" + datas[i].email 
-					     + "</td><td>" + datas[i].salary
+					     + "</td><td>" + datas[i].hire_date 
+					     + "</td><td ondblclick='changeFunc(this)'>" + datas[i].job_id
 					     + "</td><td><button onclick='delFunc(this)'>삭제</button>"
 					     + "</td></tr>";
-				}
+				}	
 				$tag += "</table>";
 				$("#show").html($tag);
 			},
 			error: function (xhr, status, error) {
 				console.log(error);
-			} */
-				var data = JSON.parse(result);//제이슨 데이터이 자바스크립 오브젝트 타입으로 변환 시켜주는게 JSON.parse
+			}  */
+			 	var data = JSON.parse(result);//제이슨 데이터이 자바스크립 오브젝트 타입으로 변환 시켜주는게 JSON.parse
 				console.log(data);
 				//document.write("<h2>ID: " + data[0].id + "</h2>");
 				//document.write("<h2>FName: " + data[0].first_name + "</h2>");
 				//document.write("<h2>Age: " + data[1].age + "</h2>");
 				var $table = $('<table />').attr({'border':'1', 'id':'tbl'});
 				var $tr = $('<tr />');
-				$tr.append($('<th />').text('HireDate'),
-	                       $('<th />').text('LName'),
+				$tr.append($('<th />').text('EId'),
+						   $('<th />').text('LName'),
 	                       $('<th />').text('Email'),
+	                       $('<th />').text('HireDate'),
 	                       $('<th />').text('JobId')
 	            );
 				$table.append($tr);
@@ -46,20 +48,68 @@
 					 var $tr = $('<tr />');
 		             var $btn = $('<button />');
 		             for (i in o) {
-		                 $tr.append($('<td />').text(o[i]));
-								                 
+		                 $tr.append($('<td />').text(o[i]));	                 
 		             }
+		             var $btn = $('<td />').html('<button>Delete</button>').click(delFunc1);
+		             $tr.append($btn);
 		             $table.append($tr);
 				});
 				$('#show').append($table);
-			}
+		
+			} 
 		});
 		
 	});
 	
-	/* function delFunc(obj) {
-		$(obj).parent().parent().remove();
-	} */
+	function delFunc1(obj) {
+		// table>tr>td>button
+		console.log($(obj).parent().parent().children().eq(0).text());
+		var eid = $(this).parent().children().eq(0).text();
+		$(this).parent().remove();
+		$.ajax({
+			url: "DelEmpServlet",
+			data: {"eid":eid, "salary":500},//"eid="+eid; 파라미터 값을 넘기는것(하나만 넘길때)
+			success: function(result, status) {
+				console.log(status);
+			}
+		});
+	}
+	
+	function delFunc(obj) {
+		// table>tr>td>button
+		console.log($(obj).parent().parent().children().eq(0).text());
+		var eid = $(this).parent().parent().children().eq(0).text();
+		$(this).parent().parent().remove();
+		$.ajax({
+			url: "DelEmpServlet",
+			data: {"eid":eid, "salary":500},//"eid="+eid; 파라미터 값을 넘기는것(하나만 넘길때)
+			success: function(result, status) {
+				console.log(status);
+			}
+		});
+	}
+	
+	function changeFunc(obj) {
+		var curValue = obj.childNodes[0].nodeValue;
+		var $input = $('<input />').attr('value', curValue);
+		$input.on('change', valueUpdate);
+		$(obj).append($input);
+		obj.childNodes[0].nodeValue="";
+	} 
+	
+	function valueUpdate() {
+		console.log($(this).val());
+		console.log($(this).parent().parent().children().eq(0).text());
+		var curSalary = $(this).val();
+		var curEmpId = $(this).parent().parent().children().eq(0).text();
+		$.ajax({
+			url: "",
+			data:{"empId": curEmpId, "salary": curSalary},
+			success: function(result, status) {
+				console.log(status);
+			}
+		});
+	} 
 </script>
 </head>
 <body>
