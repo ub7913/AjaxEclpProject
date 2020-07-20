@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	$(document).ready(function(){
+		$.ajax({
+			url:"emp.xml",
+			success: function(result) {
+				var datas = $(result).children().children();
+				console.log(datas);
+				for(var i=0; i<datas.length; i++) {
+					document.write($(datas[i].children().eq(0).text() + "-"]
+					+ $(datas[i]).children().eq(1).text()+"-"
+					+ $(datas[i]).children().eq(2).text()+"-"
+					+ $(datas[i]).children().eq(3).text()+"-"
+					+ $(datas[i]).children().eq(4).text()+"<br>"))
+				}
+			}
+		})
+	})
+</script>
+</head>
+<body>
+
+</body>
+</html>

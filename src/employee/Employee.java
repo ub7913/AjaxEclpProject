@@ -9,6 +9,19 @@ public class Employee {
 	String lastName;
 	String jobId;
 	
+	public Employee() {
+
+	}
+	
+	public Employee(String email, String hireDate, String lastName, String jobId, int salary) {
+		super();
+//		this.employeeId = employeeId;
+		this.email = email;
+		this.hireDate = hireDate;
+		this.lastName = lastName;
+		this.jobId = jobId;
+	}
+	
 	public Employee(String email, String hireDate, String lastName, String jobId) {
 		super();
 		this.email = email;
@@ -17,13 +30,14 @@ public class Employee {
 		this.jobId = jobId;
 	}
 	
-	public Employee(int employeeId, String email, String hireDate, String lastName, String jobId) {
+	public Employee(int employeeId, String email, String hireDate, String lastName, String jobId, int salary) {
 		super();
 		this.employeeId = employeeId;
 		this.email = email;
 		this.hireDate = hireDate;
 		this.lastName = lastName;
 		this.jobId = jobId;
+		this.salary = salary;
 	}
 
 	public Employee(int employeeId, String firstName, String email, int salary) {

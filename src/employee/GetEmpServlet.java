@@ -29,34 +29,46 @@ public class GetEmpServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("utf-8");
-		response.setContentType("text/html;charset=utf-8");
+		String action = request.getParameter("action");
+		
+		if (action.equals("list")) {//	
+			request.setCharacterEncoding("utf-8");
+			response.setCharacterEncoding("utf-8");
+			response.setContentType("text/html;charset=utf-8");
 //		response.getWriter().append("Served at: ").append(request.getContextPath())
 //							.append("박호일");
-		//{"id":"user1", "first_name":"Hong", "age":30}
-		PrintWriter out = response.getWriter();
-		//hr.employee(employee_id, first_name, email, salary)
-		EmpDAO dao = new EmpDAO();
-		List<Employee> list = dao.getEmpList();
-		int cnt = 0;
-		int rowCnt = list.size();
-		out.write("[");
-		for (Employee emp : list) {
+			//{"id":"user1", "first_name":"Hong", "age":30}
+			PrintWriter out = response.getWriter();
+			//hr.employee(employee_id, first_name, email, salary)
+			EmpDAO dao = new EmpDAO();
+			List<Employee> list = dao.getEmpList();
+			int cnt = 0;
+			int rowCnt = list.size();
+			out.write("[");
+			for (Employee emp : list) {
 //			{"id":"data1","first_name":"data2","email":"data3","salary":"data4"}
-			out.write("{\"employee_id\":\""+emp.getEmployeeId()+"\",\"last_name\":\""+emp.getLastName()
-					 +"\",\"email\":\""+emp.getEmail()
-					 +"\",\"hire_date\":\""+emp.getHireDate()+"\",\"job_id\":\""
-					 +emp.getJobId()+"\"}");
-			if(++cnt != rowCnt)
-				out.write(",");
-		}
-		out.write("]");
+				out.write("{\"employee_id\":\""+emp.getEmployeeId()+"\",\"last_name\":\""+emp.getLastName()
+				+"\",\"email\":\""+emp.getEmail()
+				+"\",\"hire_date\":\""+emp.getHireDate()+"\",\"job_id\":\""
+				+emp.getJobId()+"\",\"salary\":\""+emp.getSalary()+"\"}");
+				if(++cnt != rowCnt)
+					out.write(",");
+			}
+			out.write("]");
 //		out.write(" [{\"id\":\"user1\", \"first_name\":\"Hong\", \"age\":30},");
 //		out.write(" {\"id\":\"user2\", \"first_name\":\"Hwang\", \"age\":26}]");
 //		response.getWriter().write(" [{\"id\":\"user1\", \"first_name\":\"Hong\", \"age\":30},");//' " " 를 문자로 인식 시키기 위해서 역 슬래쉬(\)를 넣는다.
 //		response.getWriter().write(" {\"id\":\"user2\", \"first_name\":\"Hwang\", \"age\":26}]");
+		} else if (action.equals("update")) {
+			String empId = request.getParameter("empId");
+			String salary = request.getParameter("salary");
+			
+			System.out.println(empId + ", " + salary);
+			
+			EmpDAO dao = new EmpDAO();
+			dao.updateEmp(empId, salary);
+		}
+		
 		
 	}
 
@@ -64,7 +76,6 @@ public class GetEmpServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 
